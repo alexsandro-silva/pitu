@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, InputGroup, FormControl, Button, Alert, Spinner } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Header from '../../components/Header';
 import { ContentContainer, Form } from './styles';
 import ShortenerService from '../../services/shortenerService';
@@ -20,6 +19,7 @@ class HomePage extends React.Component {
     handleSubmit = async(event) => {
         event.preventDefault();
         const {url} = this.state;
+
         this.setState({ isLoading: true, errorMessage: '' });
         if(!url) {
             this.setState({ isLoading: false, errorMessage: 'Informe uma url para encurtar.' });
@@ -29,6 +29,7 @@ class HomePage extends React.Component {
                 const result = await service.generate({url});
 
                 this.setState({ isLoading: false, code: result.code });
+
             } catch (error) {
                 this.setState({ isLoading: false, errorMessage: 'Ops, ocorreu um erro ao tentar encurtar a url.' });
             }
@@ -49,7 +50,7 @@ class HomePage extends React.Component {
                 <Header>Seu novo encurtador de URL. :)</Header>
                 <ContentContainer>
                     <Form onSubmit={this.handleSubmit}>
-                        <InputGroup>
+                        <InputGroup className="mb-3">
                             <FormControl
                                 placeholder="Digite a url para encurtar"
                                 defaultValue=""
@@ -66,7 +67,7 @@ class HomePage extends React.Component {
                             ) : (
                                 code && (
                                     <>
-                                        <InputGroup>
+                                        <InputGroup className="mb-3">
                                             <FormControl
                                                 autoFocus={true}
                                                 defaultValue={`https://pitu.tk/${code}`}
@@ -77,7 +78,7 @@ class HomePage extends React.Component {
                                             </InputGroup.Append>
                                         </InputGroup>
 
-                                <p>Para acompanhar as estatísticas, acesse https://pitu.tk/{code}/stats</p>
+                                        <p>Para acompanhar as estatísticas, acesse https://pitu.tk/{code}/stats</p>
                                     </>
                                 )
                             )
